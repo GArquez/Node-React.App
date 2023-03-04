@@ -1,10 +1,10 @@
 {
-  "name": "proyecto-full",
+  "name": "node-react-project",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon index.js --ignore client",
+    "dev": "cross-env NODE_ENV=development node index.js",
     "start": "cross-env NODE_ENV=production node index.js"
   },
   "author": "",

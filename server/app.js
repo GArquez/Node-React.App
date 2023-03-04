@@ -41,6 +41,9 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
+//Static Files
+  
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 //Routes
 
@@ -50,8 +53,5 @@ app.use('/api/usuarios', require('./routes/users'));
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));});
   
-//Static Files
-  
-app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 module.exports = app
