@@ -1,0 +1,14 @@
+.signIn {
+    padding: 20px;
+    height: 600px;
+}
+.signIn__form {
+    padding-right: 10px;
+}
+.signIn__img {
+    background-image: url('https://puntoverde.rudy.vercel.app/images/formSignIn.jpg');
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+}

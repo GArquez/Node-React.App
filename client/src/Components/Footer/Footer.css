@@ -1,0 +1,15 @@
+.foo__bckg {
+    background-color: #6969696e;
+    height: 350px;
+    padding: 20px;
+}
+.foo__bckg img {
+    width: 120px;
+    border-radius: 50%;
+    box-shadow: 0 0 20px #302732a8;
+}
+.foo__info-dev{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
