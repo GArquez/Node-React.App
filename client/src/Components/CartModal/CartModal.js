@@ -45,7 +45,7 @@ const Cart = () => {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <img 
-                                    src = 'images/Cart.svg'
+                                    src = '/images/Cart.svg'
                                     alt = 'CartWidget'
                                 />
                                 <button type="button" className="btn-close" onClick={ handleClose }></button>

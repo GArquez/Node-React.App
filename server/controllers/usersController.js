@@ -17,13 +17,12 @@ const signUp = async ( req, res ) => {
             errors.push({ text: "Password must be at least 4 characteres." });
         };
         if ( errors.length > 0 ) {
-            return res.send(errors, req.body)
-                      .status(500);
+            return res.status(400).send(errors)
         };
 
         const userUsed = await userSchema.findOne({ email: email });
         if ( userUsed ) {
-            return res.json({ error: "Email already use." });
+            return res.status(401).json({ error: "Email already use." });
         };
 
         const newUser = new userSchema(
@@ -43,7 +42,8 @@ const signUp = async ( req, res ) => {
 
         res.status(200).cookie("refreshToken", refreshToken, COOKIE_OPTIONS).send({ succes: true, token })
     } catch (err) {
-        console.log( err )
+        console.log(err)
+        res.status(500).json(err)
     };
 };
 

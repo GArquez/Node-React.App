@@ -18,11 +18,11 @@ const userSchema = new Schema({
 
 userSchema.methods.encryptPassword = async (password) => {
     try{
-        console.log('succes Encrypt')
+        
         const salt = await bcrypt.genSalt(10);
         return await bcrypt.hash(password, salt);
     } catch(err) {
-        console.log('Failed Encrypt')
+        console.log('Encrypt error:', err)
     }
 };
 
