@@ -1,74 +1,42 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { CartContext, UserContext } from "../../Context/Context";
 
 const Checkout = () => {
     const {cart, total, emptyCart} = useContext(CartContext);
     const {userState} = useContext(UserContext);
-    const [productsToCompare, setProductsToCompare] = useState([])
-
-    useEffect(() => {
-        async function productsCompare () {
-            try{
-
-                const responseProducts = await fetch('api/productos');
-                const productsDb = await responseProducts.json()
-
-                const itemsIds = cart.map( prod => prod._id);
-                productsDb.map( prod => prod._id === itemsIds)
-                
-                setProductsToCompare(productsDb);
-            } catch (err) {
-                console.log(err)
-            } finally {
-
-            }
-        }
-        productsCompare()
-    }, [cart]);
+    console.log(userState)
 
     const createOrder = async () => {
         try {
 
             const order = {
-                comprador: {
-                    nombre: userState.details.nombre,
-                    email: userState.details.email,
-                },
+                nombre: userState.details.name,
+                email: userState.details.email,
                 items: cart,
                 total
             }
+            const postReq = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json',
+                            Authorization: `Bearer ${userState.token}`  
+                        },
+                body: JSON.stringify(order)
+            };
 
-            let noStock = []
-
-            productsToCompare.forEach( doc => {
-
-                const stockDb = doc.stock
-
-                const productsAddedCart = cart.find( prod => prod._id === doc._id)
-                const quantityProducts = productsAddedCart?.cantidad
-                if(stockDb >= quantityProducts) {
-                    doc.stock = stockDb - quantityProducts
-                } else {
-                    noStock.push({ id: doc._id, ...doc})
-                }
-            });
-            if(noStock.length === 0) {
-                const postReq = {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(order)
-                };
-
-                await fetch('/api/ordenes', postReq)                
-
+            const postOrder = await fetch('/api/ordenes/ordenar', postReq)                 
+            if (postOrder.status === 200) {
+                const resp = await postOrder.json()
                 emptyCart()
-                alert(`Listo! el ID de su orden es: `)
+                alert(`Listo! el ID de su orden es: ${resp._id} `)
+            } else if (postOrder.status === 403) {
+                const productsNoStock = postOrder.body.map(item => item.producto)
+                alert('Hay productos fuera de stock', `${productsNoStock}`)
             } else {
-                alert('Hay productos fuera de stock')
+                alert('Intente de nuevo.')
             }
-
         } catch (error) {
             console.log(error)
+            alert('Intente de nuevo.')
         }
     };
 

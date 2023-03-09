@@ -3,7 +3,6 @@ const { Schema, model } = require('mongoose');
 const orderSchema = new Schema({
     comprador: {
         nombre: String,
-        telefono: String,
         email: String
     },
     items: [{

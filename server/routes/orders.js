@@ -6,6 +6,6 @@ const { getOrders,
 
 route.get('/', verifyUser, getOrders);
 
-route.post('/', verifyUser, createOrder);
+route.post('/ordenar', verifyUser, createOrder);
 
 module.exports = route
